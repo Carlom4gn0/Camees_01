@@ -1,0 +1,128 @@
+---
+---
+<header class="navbar">
+  <div class="container nav-inner">
+    <a href="/" class="nav-logo">
+      <!-- Reemplazar con imagen real: <img src="/images/logo.png" alt="CAMEES" width="120" /> -->
+      <div class="logo-placeholder">
+        <span class="logo-icon">♀</span>
+        <div class="logo-text">
+          <span class="logo-main">CAMEES</span>
+          <span class="logo-sub">Santa Fe</span>
+        </div>
+      </div>
+    </a>
+
+    <button class="hamburger" id="hamburger" aria-label="Menú">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="nav-links" id="nav-links">
+      <a href="#quienes-somos">Quiénes somos</a>
+      <a href="#que-hacemos">Qué hacemos</a>
+      <a href="#servicios">Servicios</a>
+      <a href="#novedades">Novedades</a>
+      <a href="#contacto">Contacto</a>
+      <a href="#asociate" class="btn btn-primary nav-cta">Asociate</a>
+    </nav>
+  </div>
+</header>
+
+<style>
+.navbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  background: rgba(255,255,255,0.97);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(233,30,140,0.10);
+  transition: box-shadow 0.3s;
+}
+.navbar.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.10); }
+
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 72px;
+}
+
+.nav-logo { display: flex; align-items: center; }
+.logo-placeholder {
+  display: flex; align-items: center; gap: 10px;
+}
+.logo-icon {
+  font-size: 2rem;
+  color: var(--pink);
+  background: var(--pink-pale);
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+}
+.logo-text { display: flex; flex-direction: column; line-height: 1.1; }
+.logo-main { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1.2rem; color: var(--pink); }
+.logo-sub  { font-size: 0.7rem; color: var(--gray-text); letter-spacing: 0.1em; text-transform: uppercase; }
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+.nav-links a {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--dark);
+  transition: color 0.2s;
+  white-space: nowrap;
+}
+.nav-links a:hover { color: var(--pink); }
+.nav-cta { padding: 8px 22px !important; font-size: 0.88rem !important; }
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+}
+.hamburger span {
+  display: block;
+  width: 24px; height: 2px;
+  background: var(--dark);
+  border-radius: 2px;
+  transition: all 0.3s;
+}
+
+@media (max-width: 900px) {
+  .hamburger { display: flex; }
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 72px; left: 0; right: 0;
+    background: var(--white);
+    flex-direction: column;
+    gap: 0;
+    padding: 16px 0 24px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.10);
+  }
+  .nav-links.open { display: flex; }
+  .nav-links a {
+    padding: 12px 24px;
+    width: 100%;
+    border-bottom: 1px solid var(--pink-pale);
+  }
+  .nav-cta { margin: 12px 24px 0; width: calc(100% - 48px); text-align: center; }
+}
+</style>
+
+<script>
+const hamburger = document.getElementById('hamburger');
+const navLinks = document.getElementById('nav-links');
+hamburger?.addEventListener('click', () => navLinks?.classList.toggle('open'));
+
+window.addEventListener('scroll', () => {
+  document.querySelector('.navbar')?.classList.toggle('scrolled', window.scrollY > 10);
+});
+</script>

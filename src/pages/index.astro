@@ -1,0 +1,30 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import Hero from '../components/Hero.astro';
+import QuienesSomos from '../components/QuienesSomos.astro';
+import QueHacemos from '../components/QueHacemos.astro';
+import Servicios from '../components/Servicios.astro';
+import Novedades from '../components/Novedades.astro';
+import Asociate from '../components/Asociate.astro';
+import Contacto from '../components/Contacto.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout>
+  <Navbar />
+  <main>
+    <Hero />
+    <QuienesSomos />
+    <QueHacemos />
+    <Servicios />
+    <Novedades />
+    <Asociate />
+    <Contacto />
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+main { padding-top: 0; }
+</style>

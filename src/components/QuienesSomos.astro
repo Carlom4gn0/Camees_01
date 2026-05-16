@@ -1,0 +1,158 @@
+---
+---
+<section id="quienes-somos" class="quienes">
+  <div class="container">
+    <div class="quienes-grid">
+      <div class="quienes-text">
+        <h2 class="section-title">Historia de la Institución</h2>
+        <p>
+          La <strong>Cámara de Mujeres Empresarias y Emprendedoras Santafesinas (CAMEES)</strong> es una
+          asociación civil constituida en 2012. Surgimos con el propósito de acompañar, representar y
+          potenciar a mujeres santafesinas que emprenden o desarrollan actividades productivas,
+          comerciales y profesionales.
+        </p>
+        <p>
+          A través del trabajo en red, buscamos fortalecer la autonomía económica, la visibilidad y el
+          crecimiento de nuestras socias, desarrollando proyectos con impacto social, perspectiva de
+          género y compromiso territorial.
+        </p>
+      </div>
+      <div class="quienes-img">
+        <!-- Reemplazar con imagen real -->
+        <div class="img-placeholder">
+          <img src="/images/quienes-somos.jpg" alt="Equipo CAMEES" />
+        </div>
+      </div>
+    </div>
+
+    <!-- MVV Cards -->
+    <div class="mvv-grid">
+      <div class="mvv-card pink">
+        <h3>🎯 Misión</h3>
+        <p>Impulsar el crecimiento y fortalecimiento de mujeres emprendedoras y empresarias de Santa Fe, promoviendo el desarrollo económico con perspectiva de género, articulando con instituciones públicas y privadas y generando redes de apoyo.</p>
+      </div>
+      <div class="mvv-card light">
+        <h3>🔭 Visión</h3>
+        <p>Consolidarnos como una organización referente en el acompañamiento y representación de mujeres que emprenden, generando más y mejores oportunidades, inclusión y desarrollo sostenible.</p>
+      </div>
+      <div class="mvv-card pink">
+        <h3>💎 Valores</h3>
+        <ul>
+          <li>Sororidad</li>
+          <li>Inclusión</li>
+          <li>Autonomía económica</li>
+          <li>Asociatividad</li>
+          <li>Trabajo en red</li>
+          <li>Compromiso social</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Alianzas -->
+    <div class="alianzas" id="alianzas">
+      <h2 class="section-title">Alianzas Estratégicas</h2>
+      <div class="alianzas-grid">
+        {[
+          'Honorable Concejo Municipal',
+          'Sec. de Igualdad, Género y Diversidad',
+          'Universidad Nacional del Litoral',
+          'Universidad Católica de Santa Fe',
+          'Agencia para el Desarrollo de Santa Fe',
+          'ONU Mujeres',
+          'Banco Nación',
+          'APYME',
+          'Centro Comercial de Santa Fe',
+          'FECECO',
+          'CILSA',
+          'Asoc. Civil Generar',
+        ].map((a) => (
+          <div class="alianza-badge">{a}</div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.quienes { background: var(--white); }
+
+.quienes-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+  margin-bottom: 64px;
+}
+.quienes-text p {
+  color: var(--gray-text);
+  margin-bottom: 16px;
+  font-size: 1.05rem;
+}
+.quienes-img .img-placeholder {
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  aspect-ratio: 4/3;
+  background: var(--pink-pale);
+}
+.quienes-img img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+
+/* MVV */
+.mvv-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-bottom: 72px;
+}
+.mvv-card {
+  border-radius: var(--radius);
+  padding: 32px 28px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.mvv-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 36px rgba(233,30,140,0.15);
+}
+.mvv-card.pink  { background: var(--pink); color: var(--white); }
+.mvv-card.light { background: var(--pink-pale); color: var(--dark); }
+
+.mvv-card h3 {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+.mvv-card p, .mvv-card ul { font-size: 0.95rem; line-height: 1.7; opacity: 0.92; }
+.mvv-card ul { padding-left: 18px; }
+.mvv-card ul li { margin-bottom: 4px; }
+
+/* Alianzas */
+.alianzas-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.alianza-badge {
+  background: var(--gray-bg);
+  border: 1.5px solid rgba(233,30,140,0.18);
+  border-radius: 40px;
+  padding: 8px 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--dark);
+  transition: all 0.2s;
+}
+.alianza-badge:hover {
+  background: var(--pink-pale);
+  border-color: var(--pink);
+  color: var(--pink-dark);
+}
+
+@media (max-width: 900px) {
+  .quienes-grid { grid-template-columns: 1fr; gap: 32px; }
+  .mvv-grid { grid-template-columns: 1fr; }
+}
+</style>

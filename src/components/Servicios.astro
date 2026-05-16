@@ -1,0 +1,137 @@
+---
+---
+<section id="servicios" class="servicios">
+  <div class="container">
+    <h2 class="section-title">Servicios</h2>
+    <div class="srv-grid">
+
+      <div class="srv-card">
+        <div class="srv-img">
+          <img src="/images/servicios-emprendedoras.jpg" alt="Servicios para emprendedoras" />
+          <div class="srv-overlay"></div>
+        </div>
+        <div class="srv-body">
+          <h3>Para emprendedoras</h3>
+          <ul>
+            <li>
+              <span class="srv-icon">📚</span>
+              <span>Capacitaciones y talleres</span>
+            </li>
+            <li>
+              <span class="srv-icon">💬</span>
+              <span>Asesoramiento personalizado</span>
+            </li>
+            <li>
+              <span class="srv-icon">🛍️</span>
+              <span>Espacios de venta en ferias y eventos</span>
+            </li>
+            <li>
+              <span class="srv-icon">📣</span>
+              <span>Oportunidades de visibilidad y promoción</span>
+            </li>
+            <li>
+              <span class="srv-icon">🤝</span>
+              <span>Participación en redes y proyectos colaborativos</span>
+            </li>
+          </ul>
+          <a href="#asociate" class="btn btn-primary">Sumate a CAMEES</a>
+        </div>
+      </div>
+
+      <div class="srv-card">
+        <div class="srv-img institutions">
+          <img src="/images/servicios-instituciones.jpg" alt="Servicios para instituciones" />
+          <div class="srv-overlay"></div>
+        </div>
+        <div class="srv-body">
+          <h3>Para empresas e instituciones aliadas</h3>
+          <ul>
+            <li>
+              <span class="srv-icon">🌱</span>
+              <span>Participación en actividades con impacto social</span>
+            </li>
+            <li>
+              <span class="srv-icon">⚖️</span>
+              <span>Oportunidades de RSE con perspectiva de género</span>
+            </li>
+            <li>
+              <span class="srv-icon">🎪</span>
+              <span>Colaboración en ferias o programas de fortalecimiento</span>
+            </li>
+            <li>
+              <span class="srv-icon">🔗</span>
+              <span>Vinculación con una red activa de mujeres emprendedoras</span>
+            </li>
+          </ul>
+          <a href="#contacto" class="btn btn-primary">Contactanos</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+.servicios { background: var(--white); }
+
+.srv-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+
+.srv-card {
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  border: 1.5px solid rgba(233,30,140,0.10);
+  transition: box-shadow 0.3s, transform 0.3s;
+}
+.srv-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 14px 40px rgba(233,30,140,0.18);
+}
+
+.srv-img {
+  height: 180px;
+  position: relative;
+  background: var(--pink-pale);
+  overflow: hidden;
+}
+.srv-img img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+.srv-overlay {
+  position: absolute; inset: 0;
+  background: rgba(233,30,140,0.20);
+}
+
+.srv-body {
+  padding: 28px 28px 32px;
+}
+.srv-body h3 {
+  font-size: 1.25rem;
+  color: var(--pink-dark);
+  margin-bottom: 20px;
+}
+.srv-body ul {
+  list-style: none;
+  margin-bottom: 28px;
+}
+.srv-body ul li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 9px 0;
+  border-bottom: 1px solid #f4f4f4;
+  font-size: 0.93rem;
+  color: var(--gray-text);
+}
+.srv-body ul li:last-child { border: none; }
+.srv-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+
+@media (max-width: 700px) {
+  .srv-grid { grid-template-columns: 1fr; }
+}
+</style>

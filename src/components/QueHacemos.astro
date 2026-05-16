@@ -1,0 +1,169 @@
+---
+const categories = [
+  {
+    icon: '🧵',
+    title: 'EXPOSICIONES',
+    slug: 'exposiciones',
+    fixed: '📍 Encontranos todos los viernes y sábados en la Peatonal, frente al Teatro Municipal de Santa Fe.',
+    items: [
+      'Ferias temáticas',
+      'Exposiciones especiales por fechas patrias',
+      'Activaciones solidarias',
+    ],
+    bg: '/images/exposiciones.jpg',
+  },
+  {
+    icon: '📚',
+    title: 'CAPACITACIONES',
+    slug: 'capacitaciones',
+    items: [
+      'Talleres de oficios (joyería, tejido, bijouterie)',
+      'Capacitaciones en liderazgo, finanzas, marketing digital',
+      'Fotografía y manipulación de alimentos',
+      'Programa "Del emprendimiento a la empresa"',
+      'Alfabetización digital',
+    ],
+    bg: '/images/capacitaciones.jpg',
+  },
+  {
+    icon: '🔗',
+    title: 'VINCULACIONES',
+    slug: 'vinculaciones',
+    items: [
+      'Proyectos con el Estado provincial',
+      'Participación en redes nacionales',
+      'Mesas comunitarias',
+      'Encuentros de vinculación federal',
+    ],
+    bg: '/images/vinculaciones.jpg',
+  },
+  {
+    icon: '🧰',
+    title: 'RECURSOS',
+    slug: 'recursos',
+    items: [
+      'Acceso a microcréditos',
+      'Asesoramiento técnico y financiero',
+      'Líneas de financiamiento con perspectiva de género',
+      'Convocatorias, subsidios y materiales de apoyo',
+    ],
+    bg: '/images/recursos.jpg',
+  },
+];
+---
+<section id="que-hacemos" class="que-hacemos">
+  <div class="container">
+    <h2 class="section-title">Qué Hacemos</h2>
+    <div class="qh-grid">
+      {categories.map((cat) => (
+        <div class="qh-card">
+          <div class="qh-img">
+            <img src={cat.bg} alt={cat.title} />
+            <div class="qh-overlay"></div>
+            <div class="qh-header">
+              <span class="qh-icon">{cat.icon}</span>
+              <h3>{cat.title}</h3>
+            </div>
+          </div>
+          <div class="qh-body">
+            {cat.fixed && <p class="qh-fixed">{cat.fixed}</p>}
+            <ul>
+              {cat.items.map((item) => <li>{item}</li>)}
+            </ul>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+.que-hacemos { background: var(--gray-bg); }
+
+.qh-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px;
+}
+
+.qh-card {
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--white);
+  box-shadow: var(--shadow);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.qh-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 48px rgba(233,30,140,0.18);
+}
+
+.qh-img {
+  position: relative;
+  height: 200px;
+  background: var(--pink);
+  overflow: hidden;
+}
+.qh-img img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s;
+}
+.qh-card:hover .qh-img img { transform: scale(1.05); }
+.qh-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, rgba(233,30,140,0.35), rgba(190,24,93,0.80));
+}
+.qh-header {
+  position: absolute;
+  bottom: 16px; left: 20px;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.qh-icon { font-size: 1.6rem; }
+.qh-header h3 {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: 0.05em;
+}
+
+.qh-body {
+  padding: 24px 24px 28px;
+}
+.qh-fixed {
+  font-size: 0.88rem;
+  color: var(--pink-dark);
+  font-weight: 500;
+  background: var(--pink-pale);
+  border-left: 3px solid var(--pink);
+  padding: 10px 14px;
+  border-radius: 0 8px 8px 0;
+  margin-bottom: 16px;
+}
+.qh-body ul {
+  list-style: none;
+  padding: 0;
+}
+.qh-body ul li {
+  font-size: 0.92rem;
+  color: var(--gray-text);
+  padding: 6px 0 6px 20px;
+  position: relative;
+  border-bottom: 1px solid #f0f0f0;
+}
+.qh-body ul li:last-child { border: none; }
+.qh-body ul li::before {
+  content: '→';
+  color: var(--pink);
+  position: absolute;
+  left: 0;
+  font-size: 0.85rem;
+}
+
+@media (max-width: 700px) {
+  .qh-grid { grid-template-columns: 1fr; }
+}
+</style>
