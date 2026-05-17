@@ -9,7 +9,7 @@ const novedades = defineCollection({
   schema: z.object({
     titulo: z.string(),
     categoria: z.enum(['exposiciones', 'capacitaciones', 'vinculaciones', 'recursos']),
-    fecha: z.string(),
+    fecha: z.coerce.string(),
     resumen: z.string(),
     imagen: z.string().optional(),
     publicado: z.boolean().default(true),
