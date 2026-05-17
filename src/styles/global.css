@@ -2,6 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 :root {
+  --pink-1: #E73460;
   --pink:        #e91e8c;
   --pink-light:  #f472b6;
   --pink-pale:   #fce7f3;
