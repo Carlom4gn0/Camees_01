@@ -28,15 +28,25 @@
     <!-- MVV Cards -->
     <div class="mvv-grid">
       <div class="mvv-card pink">
-        <h3>🎯 Misión</h3>
+        <span class="mvv-card title-card">
+          <img src="/images/mision.png" alt="mision" width="50px" />
+          <h2>Misión</h2>
+        </span>
+        
         <p>Impulsar el crecimiento y fortalecimiento de mujeres emprendedoras y empresarias de Santa Fe, promoviendo el desarrollo económico con perspectiva de género, articulando con instituciones públicas y privadas y generando redes de apoyo.</p>
       </div>
       <div class="mvv-card light">
-        <h3>🔭 Visión</h3>
+        <span class="mvv-card title-card">
+          <img src="/images/vision.png" alt="mision" width="60px";  />
+          <h2>Vision</h2>
+        </span>
         <p>Consolidarnos como una organización referente en el acompañamiento y representación de mujeres que emprenden, generando más y mejores oportunidades, inclusión y desarrollo sostenible.</p>
       </div>
       <div class="mvv-card pink">
-        <h3>💎 Valores</h3>
+        <span class="mvv-card title-card">
+          <img src="/images/valores.png" alt="mision" width="50px" />
+          <h2>Valores</h2>
+        </span>
         <ul>
           <li>Sororidad</li>
           <li>Inclusión</li>
@@ -109,7 +119,7 @@
 }
 .mvv-card {
   border-radius: var(--radius);
-  padding: 32px 28px;
+  padding: 18px 18px;
   transition: transform 0.3s, box-shadow 0.3s;
 }
 .mvv-card:hover {
@@ -125,6 +135,12 @@
   font-weight: 600;
   margin-bottom: 16px;
 }
+.mvv-card span{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.mvv-card span img { padding: 5px;}
 .mvv-card p, .mvv-card ul { font-size: 0.95rem; line-height: 1.7; opacity: 0.92; }
 .mvv-card ul { padding-left: 18px; }
 .mvv-card ul li { margin-bottom: 4px; }
