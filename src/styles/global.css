@@ -18,12 +18,19 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html { scroll-behavior: smooth; }
-
+img, video, iframe {
+  max-width: 100%;
+  height: auto;
+  display: block; /* Elimina espacios en blanco no deseados debajo */
+}
 body {
   font-family: 'DM Sans', sans-serif;
   color: var(--dark);
   background: var(--white);
   line-height: 1.6;
+}
+body {
+  overflow-x: hidden;
 }
 
 h1, h2, h3, h4 {
