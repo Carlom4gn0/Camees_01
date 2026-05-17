@@ -1,0 +1,317 @@
+---
+// src/pages/novedades/index.astro
+// Página principal del blog con filtros por categoría
+
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar.astro';
+import Footer from '../../components/Footer.astro';
+import { getCollection } from 'astro:content';
+
+// Traer todas las entradas publicadas, ordenadas por fecha (más reciente primero)
+const todasLasNotas = await getCollection('novedades', ({ data }) => data.publicado === true);
+
+const notas = todasLasNotas.sort(
+  (a, b) => new Date(b.data.fecha).getTime() - new Date(a.data.fecha).getTime()
+);
+
+const categorias = [
+  { value: 'todas',          label: 'Todas',          emoji: '📋' },
+  { value: 'exposiciones',   label: 'Exposiciones',   emoji: '🧵' },
+  { value: 'capacitaciones', label: 'Capacitaciones', emoji: '📚' },
+  { value: 'vinculaciones',  label: 'Vinculaciones',  emoji: '🔗' },
+  { value: 'recursos',       label: 'Recursos',       emoji: '🧰' },
+];
+
+function formatFecha(fechaStr: string) {
+  const [y, m, d] = fechaStr.split('-').map(Number);
+  return new Date(y, m - 1, d).toLocaleDateString('es-AR', {
+    day: 'numeric', month: 'long', year: 'numeric',
+  });
+}
+
+const categoryColors: Record<string, string> = {
+  exposiciones:   '#e91e8c',
+  capacitaciones: '#7c3aed',
+  vinculaciones:  '#0ea5e9',
+  recursos:       '#16a34a',
+};
+const categoryEmojis: Record<string, string> = {
+  exposiciones: '🧵', capacitaciones: '📚', vinculaciones: '🔗', recursos: '🧰',
+};
+---
+
+<Layout title="Novedades — CAMEES" description="Noticias, actividades y recursos de la Cámara de Mujeres Empresarias y Emprendedoras Santafesinas.">
+  <Navbar />
+
+  <main class="blog-page">
+    <!-- Header -->
+    <section class="blog-hero">
+      <div class="container">
+        <span class="eyebrow">Blog & Noticias</span>
+        <h1>Novedades <em>de CAMEES</em></h1>
+        <p>Actividades, capacitaciones, recursos y todo lo que pasa en nuestra red.</p>
+      </div>
+    </section>
+
+    <!-- Filtros + Grid -->
+    <section class="blog-content">
+      <div class="container">
+
+        <!-- Filtros -->
+        <div class="filters" id="filters">
+          {categorias.map(c => (
+            <button
+              class={`filter-btn ${c.value === 'todas' ? 'active' : ''}`}
+              data-filter={c.value}
+            >
+              {c.emoji} {c.label}
+            </button>
+          ))}
+        </div>
+
+        <!-- Contador -->
+        <p class="count-label" id="count-label">
+          {notas.length} {notas.length === 1 ? 'nota' : 'notas'}
+        </p>
+
+        <!-- Grid de notas -->
+        {notas.length === 0 ? (
+          <div class="empty-state">
+            <span>📝</span>
+            <p>Todavía no hay notas publicadas.<br/>¡Pronto vas a ver el contenido acá!</p>
+          </div>
+        ) : (
+          <div class="blog-grid" id="blog-grid">
+            {notas.map((nota) => (
+              <article class="blog-card" data-category={nota.data.categoria}>
+                <a href={`/novedades/${nota.slug}`} class="card-link">
+                  <div class="card-img">
+                    {nota.data.imagen
+                      ? <img src={nota.data.imagen} alt={nota.data.titulo} loading="lazy" />
+                      : <div class="card-img-placeholder">{categoryEmojis[nota.data.categoria]}</div>
+                    }
+                    <span
+                      class="card-cat"
+                      style={`background: ${categoryColors[nota.data.categoria]}`}
+                    >
+                      {categoryEmojis[nota.data.categoria]}
+                      {categorias.find(c => c.value === nota.data.categoria)?.label}
+                    </span>
+                  </div>
+                  <div class="card-body">
+                    <time>{formatFecha(nota.data.fecha)}</time>
+                    <h2>{nota.data.titulo}</h2>
+                    <p>{nota.data.resumen}</p>
+                    <span class="read-more">Leer nota →</span>
+                  </div>
+                </a>
+              </article>
+            ))}
+          </div>
+        )}
+
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+.blog-page { padding-top: 72px; }
+
+/* Hero */
+.blog-hero {
+  background: linear-gradient(135deg, var(--pink-pale) 0%, #fff5f9 100%);
+  padding: 64px 0 56px;
+  border-bottom: 1px solid rgba(233,30,140,0.10);
+}
+.eyebrow {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--pink);
+  display: block;
+  margin-bottom: 12px;
+}
+.blog-hero h1 {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 300;
+  color: var(--dark);
+  margin-bottom: 12px;
+}
+.blog-hero h1 em { font-style: italic; color: var(--pink); }
+.blog-hero p {
+  font-size: 1rem;
+  color: var(--gray-text);
+  font-weight: 300;
+}
+
+/* Content */
+.blog-content { padding: 56px 0 96px; }
+
+/* Filtros */
+.filters {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+.filter-btn {
+  padding: 9px 20px;
+  border-radius: 40px;
+  border: 1.5px solid rgba(233,30,140,0.22);
+  background: white;
+  color: var(--gray-text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.86rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.filter-btn:hover, .filter-btn.active {
+  background: var(--pink);
+  color: white;
+  border-color: var(--pink);
+}
+
+.count-label {
+  font-size: 0.82rem;
+  color: var(--gray-text);
+  margin-bottom: 32px;
+}
+
+/* Grid */
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+/* Card */
+.blog-card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(233,30,140,0.08);
+  box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+  transition: transform 0.3s, box-shadow 0.3s, opacity 0.3s;
+}
+.blog-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 14px 36px rgba(233,30,140,0.14);
+}
+.blog-card.hidden { display: none; }
+.card-link { display: block; height: 100%; }
+
+.card-img {
+  position: relative;
+  height: 200px;
+  background: var(--pink-pale);
+  overflow: hidden;
+}
+.card-img img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s;
+}
+.blog-card:hover .card-img img { transform: scale(1.05); }
+
+.card-img-placeholder {
+  width: 100%; height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3.5rem;
+  opacity: 0.35;
+}
+
+.card-cat {
+  position: absolute;
+  top: 12px; left: 12px;
+  color: white;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 40px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  text-transform: capitalize;
+}
+
+.card-body { padding: 22px 22px 26px; }
+.card-body time {
+  display: block;
+  font-size: 0.76rem;
+  color: var(--pink);
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+.card-body h2 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  font-family: 'DM Sans', sans-serif;
+  color: var(--dark);
+  line-height: 1.4;
+  margin-bottom: 10px;
+}
+.card-body p {
+  font-size: 0.86rem;
+  color: var(--gray-text);
+  line-height: 1.6;
+  margin-bottom: 16px;
+  font-weight: 300;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.read-more {
+  font-size: 0.84rem;
+  color: var(--pink);
+  font-weight: 600;
+  transition: letter-spacing 0.2s;
+}
+.blog-card:hover .read-more { letter-spacing: 0.03em; }
+
+/* Empty */
+.empty-state {
+  text-align: center;
+  padding: 80px 20px;
+  color: var(--gray-text);
+}
+.empty-state span { font-size: 3rem; display: block; margin-bottom: 16px; }
+.empty-state p { font-size: 1rem; line-height: 1.6; }
+
+@media (max-width: 900px) { .blog-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 580px) { .blog-grid { grid-template-columns: 1fr; } }
+</style>
+
+<script>
+// Filtro por categoría (client-side)
+const filterBtns = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
+const cards      = document.querySelectorAll<HTMLElement>('.blog-card');
+const countLabel = document.getElementById('count-label');
+
+filterBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    filterBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    const filter = btn.dataset.filter;
+    let visible = 0;
+
+    cards.forEach(card => {
+      const show = filter === 'todas' || card.dataset.category === filter;
+      card.classList.toggle('hidden', !show);
+      if (show) visible++;
+    });
+
+    if (countLabel) {
+      countLabel.textContent = `${visible} ${visible === 1 ? 'nota' : 'notas'}`;
+    }
+  });
+});
+</script>

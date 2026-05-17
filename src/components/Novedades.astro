@@ -1,141 +1,159 @@
 ---
-// Posts placeholder — en producción conectar con colección de Astro Content Collections
-const posts = [
-  { category: 'Exposiciones', title: 'Feria de primavera en la Peatonal', date: '10 Oct 2024', img: '/images/blog-1.jpg' },
-  { category: 'Capacitaciones', title: 'Taller de marketing digital para emprendedoras', date: '5 Sep 2024', img: '/images/blog-2.jpg' },
-  { category: 'Vinculaciones', title: 'Reunión con la Secretaría de Género', date: '22 Ago 2024', img: '/images/blog-3.jpg' },
-  { category: 'Recursos', title: 'Nueva línea de microcréditos disponible', date: '15 Ago 2024', img: '/images/blog-4.jpg' },
-  { category: 'Exposiciones', title: 'Activación solidaria en Plaza de Mayo', date: '1 Ago 2024', img: '/images/blog-5.jpg' },
-  { category: 'Capacitaciones', title: 'Programa del emprendimiento a la empresa', date: '20 Jul 2024', img: '/images/blog-6.jpg' },
+// src/components/Novedades.astro
+// Lee las entradas reales del blog desde src/content/novedades/
+
+import { getCollection } from 'astro:content';
+
+const todasLasNotas = await getCollection('novedades', ({ data }) => data.publicado === true);
+
+const notas = todasLasNotas
+  .sort((a, b) => new Date(b.data.fecha).getTime() - new Date(a.data.fecha).getTime())
+  .slice(0, 6);
+
+const categorias = [
+  { value: 'todas',          label: 'Todas',          emoji: '📋' },
+  { value: 'exposiciones',   label: 'Exposiciones',   emoji: '🧵' },
+  { value: 'capacitaciones', label: 'Capacitaciones', emoji: '📚' },
+  { value: 'vinculaciones',  label: 'Vinculaciones',  emoji: '🔗' },
+  { value: 'recursos',       label: 'Recursos',       emoji: '🧰' },
 ];
 
-const categories = ['Todos', 'Exposiciones', 'Capacitaciones', 'Vinculaciones', 'Recursos'];
+const categoryColors: Record<string, string> = {
+  exposiciones:   '#e91e8c',
+  capacitaciones: '#7c3aed',
+  vinculaciones:  '#0ea5e9',
+  recursos:       '#16a34a',
+};
+const categoryEmojis: Record<string, string> = {
+  exposiciones: '🧵', capacitaciones: '📚', vinculaciones: '🔗', recursos: '🧰',
+};
+
+function formatFecha(fechaStr: string) {
+  const [y, m, d] = fechaStr.split('-').map(Number);
+  return new Date(y, m - 1, d).toLocaleDateString('es-AR', {
+    day: 'numeric', month: 'long', year: 'numeric',
+  });
+}
 ---
 
 <section id="novedades" class="novedades">
   <div class="container">
-    <h2 class="section-title">Novedades / Blog</h2>
 
-    <div class="blog-filters" id="blog-filters">
-      {categories.map((c) => (
-        <button class={`filter-btn ${c === 'Todos' ? 'active' : ''}`} data-filter={c}>{c}</button>
+    <div class="section-header reveal">
+      <h2 class="section-title">Novedades <em>/ Blog</em></h2>
+      <p class="section-desc">Actividades, capacitaciones, recursos y todo lo que sucede en nuestra red.</p>
+    </div>
+
+    <div class="blog-filters reveal" id="blog-filters">
+      {categorias.map(c => (
+        <button class={`filter-btn ${c.value === 'todas' ? 'active' : ''}`} data-filter={c.value}>
+          {c.emoji} {c.label}
+        </button>
       ))}
     </div>
 
-    <div class="blog-grid" id="blog-grid">
-      {posts.map((post) => (
-        <article class="blog-card" data-category={post.category}>
-          <div class="blog-img">
-            <img src={post.img} alt={post.title} />
-            <span class="blog-cat">{post.category}</span>
-          </div>
-          <div class="blog-body">
-            <time>{post.date}</time>
-            <h3>{post.title}</h3>
-            <a href="#" class="read-more">Leer más →</a>
-          </div>
-        </article>
-      ))}
-    </div>
+    {notas.length === 0 ? (
+      <div class="empty-state reveal">
+        <span>📝</span>
+        <p>Las novedades aparecerán acá cuando publiques tu primera entrada desde el panel.</p>
+        <a href="/keystatic" class="btn-empty">Ir al panel →</a>
+      </div>
+    ) : (
+      <div class="blog-grid reveal" id="blog-grid">
+        {notas.map(nota => (
+          <article class="blog-card" data-category={nota.data.categoria}>
+            <a href={`/novedades/${nota.slug}`} class="card-link">
+              <div class="card-img">
+                {nota.data.imagen
+                  ? <img src={nota.data.imagen} alt={nota.data.titulo} loading="lazy" />
+                  : <div class="card-img-placeholder">{categoryEmojis[nota.data.categoria]}</div>
+                }
+                <span class="card-cat" style={`background: ${categoryColors[nota.data.categoria]}`}>
+                  {categoryEmojis[nota.data.categoria]} {categorias.find(c => c.value === nota.data.categoria)?.label}
+                </span>
+              </div>
+              <div class="card-body">
+                <time>{formatFecha(nota.data.fecha)}</time>
+                <h3>{nota.data.titulo}</h3>
+                <p>{nota.data.resumen}</p>
+                <span class="read-more">Leer nota →</span>
+              </div>
+            </a>
+          </article>
+        ))}
+      </div>
+    )}
+
+    {notas.length > 0 && (
+      <div class="ver-todas reveal">
+        <a href="/novedades" class="btn-outline-pink">Ver todas las novedades →</a>
+      </div>
+    )}
+
   </div>
 </section>
 
 <style>
-.novedades { background: var(--gray-bg); }
+.novedades { background: var(--gray-bg, #f7f7f7); }
+.section-header { margin-bottom: 16px; }
+.section-desc { font-size: 1rem; color: var(--gray-text, #555); font-weight: 300; margin-top: 8px; }
 
-.blog-filters {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin-bottom: 40px;
-}
+.blog-filters { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 36px; }
 .filter-btn {
-  padding: 8px 20px;
-  border-radius: 40px;
-  border: 1.5px solid rgba(233,30,140,0.25);
-  background: var(--white);
-  color: var(--gray-text);
-  font-family: 'DM Sans', sans-serif;
-  font-size: 0.88rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s;
+  padding: 8px 18px; border-radius: 40px;
+  border: 1.5px solid rgba(233,30,140,0.22);
+  background: white; color: var(--gray-text, #555);
+  font-family: 'DM Sans', sans-serif; font-size: 0.84rem; font-weight: 500;
+  cursor: pointer; transition: all 0.2s;
 }
-.filter-btn:hover, .filter-btn.active {
-  background: var(--pink);
-  color: white;
-  border-color: var(--pink);
-}
+.filter-btn:hover, .filter-btn.active { background: var(--pink, #e91e8c); color: white; border-color: var(--pink, #e91e8c); }
 
-.blog-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-}
+.blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 40px; }
 
 .blog-card {
-  background: var(--white);
-  border-radius: var(--radius);
-  overflow: hidden;
-  box-shadow: 0 2px 16px rgba(0,0,0,0.07);
-  transition: transform 0.3s, box-shadow 0.3s, opacity 0.3s;
+  background: white; border-radius: 12px; overflow: hidden;
+  border: 1px solid rgba(233,30,140,0.08); box-shadow: 0 2px 14px rgba(0,0,0,0.05);
+  transition: transform 0.3s, box-shadow 0.3s;
 }
-.blog-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 32px rgba(233,30,140,0.14);
-}
+.blog-card:hover { transform: translateY(-6px); box-shadow: 0 14px 36px rgba(233,30,140,0.14); }
 .blog-card.hidden { display: none; }
+.card-link { display: block; }
 
-.blog-img {
-  position: relative;
-  height: 180px;
-  background: var(--pink-pale);
-  overflow: hidden;
-}
-.blog-img img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-  transition: transform 0.4s;
-}
-.blog-card:hover .blog-img img { transform: scale(1.05); }
-.blog-cat {
-  position: absolute;
-  top: 12px; left: 12px;
-  background: var(--pink);
-  color: white;
-  font-size: 0.75rem;
-  font-weight: 600;
-  padding: 4px 12px;
-  border-radius: 40px;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+.card-img { position: relative; height: 180px; background: var(--pink-pale, #fce7f3); overflow: hidden; }
+.card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; }
+.blog-card:hover .card-img img { transform: scale(1.05); }
+.card-img-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 3rem; opacity: 0.3; }
+.card-cat {
+  position: absolute; top: 10px; left: 10px;
+  color: white; font-size: 0.70rem; font-weight: 600;
+  padding: 4px 10px; border-radius: 40px; display: flex; align-items: center; gap: 4px;
 }
 
-.blog-body {
-  padding: 20px 20px 24px;
+.card-body { padding: 18px 18px 22px; }
+.card-body time { display: block; font-size: 0.75rem; color: var(--pink, #e91e8c); font-weight: 500; margin-bottom: 6px; }
+.card-body h3 { font-size: 0.98rem; font-weight: 600; font-family: 'DM Sans', sans-serif; color: var(--dark, #1a1a1a); line-height: 1.4; margin-bottom: 8px; }
+.card-body p {
+  font-size: 0.83rem; color: var(--gray-text, #555); line-height: 1.6; margin-bottom: 12px;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
 }
-.blog-body time {
-  font-size: 0.78rem;
-  color: var(--pink);
-  font-weight: 500;
-  display: block;
-  margin-bottom: 6px;
+.read-more { font-size: 0.82rem; color: var(--pink, #e91e8c); font-weight: 600; }
+
+.empty-state { text-align: center; padding: 64px 20px; color: var(--gray-text); }
+.empty-state span { font-size: 3rem; display: block; margin-bottom: 14px; }
+.empty-state p { font-size: 0.95rem; margin-bottom: 20px; }
+.btn-empty {
+  display: inline-block; background: var(--pink); color: white;
+  padding: 10px 24px; border-radius: 40px; font-weight: 600; font-size: 0.88rem; transition: background 0.2s;
 }
-.blog-body h3 {
-  font-size: 1rem;
-  font-weight: 600;
-  font-family: 'DM Sans', sans-serif;
-  line-height: 1.4;
-  margin-bottom: 12px;
-  color: var(--dark);
+.btn-empty:hover { background: var(--pink-dark); }
+
+.ver-todas { text-align: center; }
+.btn-outline-pink {
+  display: inline-block; padding: 12px 32px; border-radius: 40px;
+  border: 2px solid var(--pink, #e91e8c); color: var(--pink, #e91e8c);
+  font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 0.92rem; transition: all 0.25s;
 }
-.read-more {
-  font-size: 0.85rem;
-  color: var(--pink);
-  font-weight: 600;
-  transition: letter-spacing 0.2s;
-}
-.read-more:hover { letter-spacing: 0.03em; }
+.btn-outline-pink:hover { background: var(--pink); color: white; }
 
 @media (max-width: 900px) { .blog-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 580px) { .blog-grid { grid-template-columns: 1fr; } }
@@ -144,18 +162,13 @@ const categories = ['Todos', 'Exposiciones', 'Capacitaciones', 'Vinculaciones', 
 <script>
 const filterBtns = document.querySelectorAll('.filter-btn');
 const cards = document.querySelectorAll('.blog-card');
-
-filterBtns.forEach((btn) => {
+filterBtns.forEach(btn => {
   btn.addEventListener('click', () => {
-    filterBtns.forEach((b) => b.classList.remove('active'));
+    filterBtns.forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     const filter = btn.dataset.filter;
-    cards.forEach((card) => {
-      if (filter === 'Todos' || card.dataset.category === filter) {
-        card.classList.remove('hidden');
-      } else {
-        card.classList.add('hidden');
-      }
+    cards.forEach(card => {
+      card.classList.toggle('hidden', filter !== 'todas' && card.dataset.category !== filter);
     });
   });
 });

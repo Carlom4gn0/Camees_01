@@ -1,0 +1,410 @@
+---
+// src/pages/novedades/[slug].astro
+// Página individual de cada nota del blog
+
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar.astro';
+import Footer from '../../components/Footer.astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+
+export async function getStaticPaths() {
+  const notas = await getCollection('novedades', ({ data }) => data.publicado === true);
+  return notas.map(nota => ({
+    params: { slug: nota.slug },
+    props:  { nota },
+  }));
+}
+
+interface Props { nota: CollectionEntry<'novedades'>; }
+const { nota } = Astro.props;
+const { Content } = await nota.render();
+
+function formatFecha(fechaStr: string) {
+  const [y, m, d] = fechaStr.split('-').map(Number);
+  return new Date(y, m - 1, d).toLocaleDateString('es-AR', {
+    day: 'numeric', month: 'long', year: 'numeric',
+  });
+}
+
+const categoriasInfo: Record<string, { label: string; emoji: string; color: string }> = {
+  exposiciones:   { label: 'Exposiciones',   emoji: '🧵', color: '#e91e8c' },
+  capacitaciones: { label: 'Capacitaciones', emoji: '📚', color: '#7c3aed' },
+  vinculaciones:  { label: 'Vinculaciones',  emoji: '🔗', color: '#0ea5e9' },
+  recursos:       { label: 'Recursos',       emoji: '🧰', color: '#16a34a' },
+};
+
+const cat = categoriasInfo[nota.data.categoria];
+
+// Notas relacionadas (misma categoría, excluyendo la actual)
+const todasLasNotas = await getCollection('novedades', ({ data }) => data.publicado === true);
+const relacionadas = todasLasNotas
+  .filter(n => n.slug !== nota.slug && n.data.categoria === nota.data.categoria)
+  .slice(0, 3);
+---
+
+<Layout title={`${nota.data.titulo} — CAMEES`} description={nota.data.resumen}>
+  <Navbar />
+
+  <main class="nota-page">
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+      <div class="container">
+        <a href="/">Inicio</a>
+        <span>→</span>
+        <a href="/novedades">Novedades</a>
+        <span>→</span>
+        <span>{nota.data.titulo}</span>
+      </div>
+    </div>
+
+    <!-- Header de la nota -->
+    <header class="nota-header">
+      {nota.data.imagen && (
+        <div class="nota-hero-img">
+          <img src={nota.data.imagen} alt={nota.data.titulo} />
+          <div class="nota-hero-overlay"></div>
+        </div>
+      )}
+      <div class="container nota-header-content">
+        <span
+          class="nota-cat"
+          style={`background: ${cat.color}`}
+        >
+          {cat.emoji} {cat.label}
+        </span>
+        <h1>{nota.data.titulo}</h1>
+        <div class="nota-meta">
+          <time>{formatFecha(nota.data.fecha)}</time>
+        </div>
+        <p class="nota-resumen">{nota.data.resumen}</p>
+      </div>
+    </header>
+
+    <!-- Contenido principal -->
+    <article class="nota-content">
+      <div class="container nota-layout">
+        <div class="nota-body prose">
+          <Content />
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="nota-sidebar">
+          <div class="sidebar-card">
+            <h4>📋 Categoría</h4>
+            <a href={`/novedades?cat=${nota.data.categoria}`} class="sidebar-cat" style={`color: ${cat.color}`}>
+              {cat.emoji} {cat.label}
+            </a>
+          </div>
+
+          <div class="sidebar-card">
+            <h4>📅 Fecha</h4>
+            <p>{formatFecha(nota.data.fecha)}</p>
+          </div>
+
+          <div class="sidebar-card cta-card">
+            <h4>¿Querés sumarte?</h4>
+            <p>Formá parte de nuestra red de mujeres emprendedoras.</p>
+            <a href="/#asociate" class="btn-sidebar">Asociate →</a>
+          </div>
+
+          <a href="/novedades" class="back-link">← Volver al blog</a>
+        </aside>
+      </div>
+    </article>
+
+    <!-- Notas relacionadas -->
+    {relacionadas.length > 0 && (
+      <section class="relacionadas">
+        <div class="container">
+          <h3>Más de <em>{cat.label}</em></h3>
+          <div class="rel-grid">
+            {relacionadas.map(rel => (
+              <a href={`/novedades/${rel.slug}`} class="rel-card">
+                <div class="rel-img">
+                  {rel.data.imagen
+                    ? <img src={rel.data.imagen} alt={rel.data.titulo} loading="lazy" />
+                    : <div class="rel-placeholder">{cat.emoji}</div>
+                  }
+                </div>
+                <div class="rel-body">
+                  <time>{formatFecha(rel.data.fecha)}</time>
+                  <h4>{rel.data.titulo}</h4>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+.nota-page { padding-top: 72px; }
+
+/* Breadcrumb */
+.breadcrumb {
+  background: var(--gray-bg);
+  border-bottom: 1px solid rgba(233,30,140,0.08);
+  padding: 12px 0;
+}
+.breadcrumb .container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  color: var(--gray-text);
+  flex-wrap: wrap;
+}
+.breadcrumb a { color: var(--pink); transition: opacity 0.2s; }
+.breadcrumb a:hover { opacity: 0.7; }
+.breadcrumb span:last-child {
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Header */
+.nota-header {
+  position: relative;
+  background: var(--dark);
+  overflow: hidden;
+  min-height: 340px;
+  display: flex;
+  align-items: flex-end;
+}
+.nota-hero-img {
+  position: absolute;
+  inset: 0;
+}
+.nota-hero-img img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  opacity: 0.45;
+}
+.nota-hero-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(26,26,26,0.95) 0%, rgba(26,26,26,0.4) 100%);
+}
+
+.nota-header-content {
+  position: relative;
+  z-index: 2;
+  padding-top: 64px;
+  padding-bottom: 48px;
+  max-width: 760px;
+}
+
+.nota-cat {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 5px 14px;
+  border-radius: 40px;
+  margin-bottom: 16px;
+  text-transform: capitalize;
+  letter-spacing: 0.05em;
+}
+
+.nota-header-content h1 {
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 300;
+  color: white;
+  margin-bottom: 12px;
+  line-height: 1.2;
+}
+
+.nota-meta time {
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.55);
+  display: block;
+  margin-bottom: 14px;
+}
+
+.nota-resumen {
+  font-size: 1rem;
+  color: rgba(255,255,255,0.72);
+  font-weight: 300;
+  line-height: 1.6;
+}
+
+/* Layout nota */
+.nota-content { padding: 56px 0 80px; }
+.nota-layout {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 64px;
+  align-items: start;
+}
+
+/* Prose (contenido markdown) */
+.prose {
+  font-size: 1rem;
+  line-height: 1.8;
+  color: var(--gray-text);
+  font-weight: 300;
+}
+.prose h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  font-family: 'Playfair Display', serif;
+  color: var(--dark);
+  margin: 36px 0 14px;
+}
+.prose h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  font-family: 'DM Sans', sans-serif;
+  color: var(--dark);
+  margin: 28px 0 10px;
+}
+.prose p { margin-bottom: 18px; }
+.prose ul, .prose ol {
+  padding-left: 22px;
+  margin-bottom: 18px;
+}
+.prose li { margin-bottom: 6px; }
+.prose strong { font-weight: 600; color: var(--dark); }
+.prose em { color: var(--pink-dark); }
+.prose img {
+  width: 100%;
+  border-radius: 10px;
+  margin: 24px 0;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.10);
+}
+.prose blockquote {
+  border-left: 3px solid var(--pink);
+  padding: 12px 20px;
+  background: var(--pink-pale);
+  border-radius: 0 8px 8px 0;
+  margin: 24px 0;
+  font-style: italic;
+  color: var(--pink-dark);
+}
+
+/* Sidebar */
+.nota-sidebar {
+  position: sticky;
+  top: 88px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sidebar-card {
+  background: var(--gray-bg);
+  border-radius: 10px;
+  padding: 20px;
+  border: 1px solid rgba(233,30,140,0.08);
+}
+.sidebar-card h4 {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--gray-text);
+  margin-bottom: 8px;
+}
+.sidebar-card p { font-size: 0.88rem; color: var(--gray-text); }
+.sidebar-cat {
+  font-size: 0.92rem;
+  font-weight: 600;
+  transition: opacity 0.2s;
+}
+.sidebar-cat:hover { opacity: 0.75; }
+
+.cta-card {
+  background: var(--pink);
+  border-color: transparent;
+}
+.cta-card h4 { color: rgba(255,255,255,0.75); }
+.cta-card p  { color: rgba(255,255,255,0.85); margin-bottom: 14px; font-size: 0.85rem; }
+
+.btn-sidebar {
+  display: inline-block;
+  background: white;
+  color: var(--pink);
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding: 8px 18px;
+  border-radius: 40px;
+  transition: all 0.2s;
+}
+.btn-sidebar:hover {
+  background: var(--pink-dark);
+  color: white;
+}
+
+.back-link {
+  font-size: 0.85rem;
+  color: var(--pink);
+  font-weight: 500;
+  transition: letter-spacing 0.2s;
+  display: block;
+  padding: 4px 0;
+}
+.back-link:hover { letter-spacing: 0.02em; }
+
+/* Relacionadas */
+.relacionadas {
+  background: var(--gray-bg);
+  padding: 56px 0;
+  border-top: 1px solid rgba(233,30,140,0.08);
+}
+.relacionadas h3 {
+  font-size: 1.6rem;
+  font-weight: 300;
+  color: var(--dark);
+  margin-bottom: 32px;
+}
+.relacionadas h3 em { font-style: italic; color: var(--pink); }
+
+.rel-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.rel-card {
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(233,30,140,0.08);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.rel-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 28px rgba(233,30,140,0.12);
+}
+.rel-img {
+  height: 140px;
+  background: var(--pink-pale);
+  overflow: hidden;
+}
+.rel-img img { width: 100%; height: 100%; object-fit: cover; }
+.rel-placeholder {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2.5rem; opacity: 0.3;
+}
+.rel-body { padding: 16px; }
+.rel-body time { font-size: 0.72rem; color: var(--pink); font-weight: 500; display: block; margin-bottom: 6px; }
+.rel-body h4 { font-size: 0.92rem; font-family: 'DM Sans', sans-serif; font-weight: 600; color: var(--dark); line-height: 1.4; }
+
+@media (max-width: 900px) {
+  .nota-layout { grid-template-columns: 1fr; }
+  .nota-sidebar { position: static; }
+  .rel-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 580px) {
+  .rel-grid { grid-template-columns: 1fr; }
+}
+</style>
