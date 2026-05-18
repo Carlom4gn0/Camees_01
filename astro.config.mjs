@@ -1,11 +1,11 @@
 import { defineConfig } from 'astro/config';
-import node from '@astrojs/node';
+import netlify from '@astrojs/netlify';
 import react from '@astrojs/react';
 import keystatic from '@keystatic/astro';
 
 export default defineConfig({
   site: 'https://camees.org.ar',
   output: 'hybrid',
-  adapter: node({ mode: 'middleware' }),
+  adapter: netlify(),
   integrations: [react(), keystatic()],
 });
