@@ -5,11 +5,11 @@
 import { defineCollection, z } from 'astro:content';
 
 const novedades = defineCollection({
-  type: 'content',
+  type: 'content',   // ← para archivos .mdoc y .md
   schema: z.object({
     titulo: z.string(),
     categoria: z.enum(['exposiciones', 'capacitaciones', 'vinculaciones', 'recursos']),
-    fecha: z.coerce.string(),
+    fecha: z.coerce.string(),   // ← coerce acepta Date y string
     resumen: z.string(),
     imagen: z.string().optional(),
     publicado: z.boolean().default(true),
