@@ -9,7 +9,7 @@ publicado: true
 
 ## Una oportunidad concreta de financiamiento
 
-CAMEES logró articular con el **Banco Nación** el acceso a una nueva línea de microcréditos especialmente diseñada para mujeres emprendedoras. Esta herramienta financiera permite a las socias acceder a capital de trabajo en condiciones diferenciales.
+CAMEES logró articular con el **Banco Nación** el acceso a una nueva línea de microcréditos especialmente diseñada para mujeres emprendedoras.
 
 ## Condiciones de la línea
 
@@ -21,8 +21,4 @@ CAMEES logró articular con el **Banco Nación** el acceso a una nueva línea de
 
 ## ¿Cómo acceder?
 
-1. Acercate a nuestras oficinas (martes y viernes de 9 a 13 hs)
-2. Te asesoramos sobre los requisitos específicos
-3. Te acompañamos durante todo el proceso de solicitud
-
-Esta es una de las ventajas concretas de ser parte de nuestra red. **¡No dejés pasar esta oportunidad!**
+Acercate a nuestras oficinas (martes y viernes de 9 a 13 hs) y te asesoramos durante todo el proceso.

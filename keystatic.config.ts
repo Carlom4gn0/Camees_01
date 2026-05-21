@@ -2,7 +2,11 @@ import { config, collection, fields } from '@keystatic/core';
 
 export default config({
   storage: {
-    kind: 'local',
+    kind: 'github',
+    repo: {
+      owner: 'Carlom4gn0',
+      name: 'Camees_01',
+    },
   },
 
   ui: {
@@ -16,6 +20,7 @@ export default config({
       label: 'Novedades / Blog',
       slugField: 'titulo',
       path: 'src/content/novedades/*',
+      // .md en lugar de .mdoc — Astro lo lee de forma nativa sin configuración extra
       format: { contentField: 'content' },
       entryLayout: 'content',
       schema: {
@@ -25,7 +30,6 @@ export default config({
         }),
         categoria: fields.select({
           label: 'Categoría',
-          description: 'Elegí la categoría que corresponde a esta nota',
           options: [
             { label: '🧵 Exposiciones',   value: 'exposiciones'   },
             { label: '📚 Capacitaciones', value: 'capacitaciones' },
@@ -40,12 +44,10 @@ export default config({
         }),
         resumen: fields.text({
           label: 'Resumen / descripción corta',
-          description: 'Aparece en la grilla del blog (máx. 200 caracteres)',
           multiline: true,
         }),
         imagen: fields.image({
           label: 'Imagen destacada',
-          description: 'Foto principal de la nota. Recomendado: 1200×630 px',
           directory: 'public/images/novedades',
           publicPath: '/images/novedades',
         }),
@@ -54,9 +56,15 @@ export default config({
           description: 'Si está desmarcado, la nota no aparece en el sitio',
           defaultValue: true,
         }),
-        content: fields.markdoc({
+        content: fields.document({
           label: 'Contenido',
-          description: 'El cuerpo completo de la nota',
+          formatting: true,
+          dividers: true,
+          links: true,
+          images: {
+            directory: 'public/images/novedades',
+            publicPath: '/images/novedades',
+          },
         }),
       },
     }),
