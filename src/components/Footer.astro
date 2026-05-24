@@ -6,11 +6,9 @@
       <div class="logo-placeholder">
         <img src="/images/logo.png" alt="CAMEES" width="50" />
         <div class="logo-text">
-          <span class="logo-main">CAMEES</span>
-          <span class="logo-sub">Santa Fe</span>
+         <p>Cámara de Mujeres Empresarias y Emprendedoras Santafesinas - desde 2012</p>
         </div>
-      </div>
-      <p>Cámara de Mujeres Empresarias y Emprendedoras Santafesinas — desde 2012</p>
+      </div> 
       <div class="footer-social">
         <a href="https://www.instagram.com/camees_santafe" target="_blank" rel="noopener" aria-label="Instagram">
           <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
@@ -54,12 +52,15 @@
 
   <div class="footer-bottom">
     <div class="container">
-      <p>© {new Date().getFullYear()} CAMEES – Cámara de Mujeres Empresarias y Emprendedoras Santafesinas</p>
+      <p>© {new Date().getFullYear()} CAMEES – Diseño y desarrollo Web Duin y Carlomagno José</p>
     </div>
   </div>
 </footer>
 
 <style>
+.logo-main-0 {
+  font-family: 'Playfair Display', serif; font-weight: 600; font-size: 0.8rem; color: var(--pink-1); padding: 12px;
+}  
 .footer {
   background: #1a0a10;
   color: rgba(255,255,255,0.75);
@@ -73,11 +74,12 @@
   border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 
-.footer-brand .logo-placeholder { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+.footer-brand .logo-placeholder { display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 10px; }
 .footer-brand .logo-icon { font-size: 1.8rem; color: var(--pink); background: rgba(233,30,140,0.15); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
 .footer-brand .logo-main { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1.1rem; color: var(--pink-light); }
 .footer-brand .logo-sub  { font-size: 0.65rem; color: rgba(255,255,255,0.5); letter-spacing: 0.1em; text-transform: uppercase; }
 .footer-brand p { font-size: 0.85rem; line-height: 1.6; margin-bottom: 20px; }
+.footer-brand .logo-placeholder p { margin-top: 15px;}
 
 .footer-social { display: flex; gap: 14px; }
 .footer-social a { color: rgba(255,255,255,0.55); transition: color 0.2s; }
