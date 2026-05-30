@@ -1,0 +1,223 @@
+---
+import { getCollection } from 'astro:content';
+
+const todasLasNotas = await getCollection('novedades', ({ data }) => data.publicado === true);
+
+const notas = todasLasNotas
+  .sort((a, b) => new Date(b.data.fecha).getTime() - new Date(a.data.fecha).getTime())
+  .slice(0, 3);
+
+const categoryColors: Record<string, string> = {
+  exposiciones:   '#e91e8c',
+  capacitaciones: '#7c3aed',
+  vinculaciones:  '#0ea5e9',
+  recursos:       '#16a34a',
+};
+
+const categoryEmojis: Record<string, string> = {
+  exposiciones: '🧵',
+  capacitaciones: '📚',
+  vinculaciones: '🔗',
+  recursos: '🧰',
+};
+
+function formatFecha(fechaStr: string) {
+  const [y, m, d] = fechaStr.split('-').map(Number);
+  return new Date(y, m - 1, d).toLocaleDateString('es-AR', {
+    day: 'numeric', month: 'short', year: 'numeric',
+  });
+}
+---
+
+{notas.length > 0 && (
+  <section class="ultimas-noticias" aria-label="Últimas novedades">
+    <div class="container un-inner">
+
+      <div class="un-header">
+        <span class="un-label">Últimas novedades</span>
+        <a href="/novedades" class="un-ver-todas">Ver todas →</a>
+      </div>
+
+      <div class="un-grid">
+        {notas.map((nota) => (
+          <a href={`/novedades/${nota.slug}`} class="un-card">
+            <div class="un-img">
+              {nota.data.imagen
+                ? <img src={nota.data.imagen} alt={nota.data.titulo} loading="lazy" />
+                : <div class="un-img-placeholder">{categoryEmojis[nota.data.categoria]}</div>
+              }
+              <span
+                class="un-cat"
+                style={`background: ${categoryColors[nota.data.categoria]}`}
+              >
+                {categoryEmojis[nota.data.categoria]} {nota.data.categoria}
+              </span>
+            </div>
+            <div class="un-body">
+              <time class="un-fecha">{formatFecha(nota.data.fecha)}</time>
+              <h3 class="un-titulo">{nota.data.titulo}</h3>
+              <p class="un-resumen">{nota.data.resumen}</p>
+            </div>
+          </a>
+        ))}
+      </div>
+
+    </div>
+  </section>
+)}
+
+<style>
+.ultimas-noticias {
+  background: var(--pink-pale, #fce7f3);
+  padding: 48px 0;
+  border-top: 1px solid rgba(233,30,140,0.10);
+  border-bottom: 1px solid rgba(233,30,140,0.10);
+}
+
+.un-inner { }
+
+/* Header */
+.un-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.un-label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--pink, #e91e8c);
+}
+
+.un-ver-todas {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--pink, #e91e8c);
+  text-decoration: none;
+  transition: letter-spacing 0.2s;
+}
+.un-ver-todas:hover { letter-spacing: 0.04em; }
+
+/* Grid */
+.un-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+/* Card */
+.un-card {
+  background: var(--white, #ffffff);
+  border-radius: 10px;
+  overflow: hidden;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(233,30,140,0.08);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.un-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 28px rgba(233,30,140,0.12);
+}
+
+/* Imagen */
+.un-img {
+  position: relative;
+  height: 140px;
+  background: var(--pink-pale, #fce7f3);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.un-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+.un-card:hover .un-img img { transform: scale(1.05); }
+
+.un-img-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  opacity: 0.3;
+}
+
+.un-cat {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  color: white;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 40px;
+  text-transform: capitalize;
+  letter-spacing: 0.03em;
+}
+
+/* Body */
+.un-body {
+  padding: 14px 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex: 1;
+}
+
+.un-fecha {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.7rem;
+  color: var(--pink, #e91e8c);
+  font-weight: 500;
+}
+
+.un-titulo {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--dark, #1a1a1a);
+  line-height: 1.35;
+  margin: 0;
+  /* Limitar a 2 líneas */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.un-resumen {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.78rem;
+  color: var(--gray-text, #555);
+  line-height: 1.5;
+  margin: 0;
+  font-weight: 300;
+  /* Limitar a 2 líneas */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .ultimas-noticias { padding: 36px 0; }
+  .un-grid { grid-template-columns: 1fr; gap: 12px; }
+  .un-img  { height: 160px; }
+}
+
+@media (min-width: 480px) and (max-width: 768px) {
+  .un-grid { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
