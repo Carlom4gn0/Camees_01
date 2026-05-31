@@ -1,0 +1,337 @@
+---
+// Testimonios de socias de CAMEES
+// Para agregar o editar, modificá el array "testimonios" abajo
+
+const testimonios = [
+  {
+    nombre: 'María González',
+    emprendimiento: 'Artesanías MG',
+    rubro: 'Artesanías y textiles',
+    foto: '/images/testimonios/maria-gonzalez.jpg',
+    texto: 'Gracias a CAMEES pude acceder a mi primer espacio de venta en la Peatonal. El acompañamiento y la red de contactos que construí transformaron completamente mi emprendimiento.',
+  },
+  {
+    nombre: 'Laura Rodríguez',
+    emprendimiento: 'Pastelería Dulce Hogar',
+    rubro: 'Gastronomía',
+    foto: '/images/testimonios/laura-rodriguez.jpg',
+    texto: 'Los talleres de finanzas y marketing digital me dieron las herramientas que necesitaba para profesionalizar mi negocio. Hoy factura el doble que antes de unirme.',
+  },
+  {
+    nombre: 'Claudia Méndez',
+    emprendimiento: 'Bijoutería CM',
+    rubro: 'Joyería artesanal',
+    foto: '/images/testimonios/claudia-mendez.jpg',
+    texto: 'La sororidad dentro de CAMEES es real. Encontré colegas, amigas y socias de negocio. Esta red nos potencia a todas y hace que crecer se sienta menos solitario.',
+  },
+  {
+    nombre: 'Sofía Villalba',
+    emprendimiento: 'Indumentaria SV',
+    rubro: 'Moda y diseño',
+    foto: '/images/testimonios/sofia-villalba.jpg',
+    texto: 'Acceder a un microcrédito a través de CAMEES me permitió comprar mi primera máquina industrial. Sin ese apoyo, el salto no hubiera sido posible en ese momento.',
+  },
+  {
+    nombre: 'Patricia Torres',
+    emprendimiento: 'Cosmética Natural PT',
+    rubro: 'Belleza y cosmética',
+    foto: '/images/testimonios/patricia-torres.jpg',
+    texto: 'Participar en los encuentros de vinculación federal me abrió puertas que jamás imaginé. Hoy vendo en tres provincias gracias a los contactos que hice en CAMEES.',
+  },
+];
+---
+
+<section id="testimonios" class="testimonios">
+  <div class="container">
+
+    <div class="test-header">
+      <span class="test-eyebrow">Voces de nuestra red</span>
+      <h2 class="section-title">Lo que dicen <em>nuestras socias</em></h2>
+     <!-- <p class="test-sub">Historias reales de emprendedoras que encontraron en CAMEES el impulso para crecer.</p> --> 
+    </div>
+
+    <!-- Track del slider -->
+    <div class="test-slider-wrap">
+      <div class="test-track" id="test-track">
+        {testimonios.map((t, i) => (
+          <div class="test-card" aria-hidden={i > 0 ? 'true' : 'false'}>
+            <div class="test-quote">❝</div>
+            <p class="test-texto">{t.texto}</p>
+            <div class="test-footer">
+              <div class="test-avatar">
+                <img
+                  src={t.foto}
+                  alt={t.nombre}
+                  loading="lazy"
+                  onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"
+                />
+                <div class="test-avatar-fallback" style="display:none">
+                  {t.nombre.charAt(0)}
+                </div>
+              </div>
+              <div class="test-info">
+                <strong>{t.nombre}</strong>
+                <span>{t.emprendimiento}</span>
+                <span class="test-rubro">{t.rubro}</span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <!-- Controles -->
+      <button class="test-btn test-prev" id="test-prev" aria-label="Anterior">‹</button>
+      <button class="test-btn test-next" id="test-next" aria-label="Siguiente">›</button>
+    </div>
+
+    <!-- Dots -->
+    <div class="test-dots" id="test-dots">
+      {testimonios.map((_, i) => (
+        <button
+          class={`test-dot ${i === 0 ? 'active' : ''}`}
+          data-index={i}
+          aria-label={`Ir al testimonio ${i + 1}`}
+        ></button>
+      ))}
+    </div>
+
+  </div>
+</section>
+
+<style>
+.testimonios {
+  background: var(--gray-bg, #f7f7f7);
+  padding: 80px 0;
+  overflow: hidden;
+}
+
+/* Header */
+.test-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+.test-eyebrow {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--pink, #e91e8c);
+  margin-bottom: 12px;
+}
+.section-title em {
+  font-style: italic;
+  color: var(--pink, #e91e8c);
+}
+.test-sub {
+  font-size: 0.95rem;
+  color: var(--gray-text, #555);
+  font-weight: 300;
+  margin-top: 8px;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Slider wrapper */
+.test-slider-wrap {
+  position: relative;
+  max-width: 800px;
+  margin: 10 10;
+}
+
+/* Track — muestra 1 card a la vez con transición */
+.test-track {
+  display: flex;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+}
+
+/* Card */
+.test-card {
+  background: var(--white, #fff);
+  border-radius: 16px;
+  padding: 40px 40px 36px;
+  box-shadow: 0 4px 24px rgba(233,30,140,0.08);
+  border: 1px solid rgba(233,30,140,0.08);
+  min-width: 100%;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.test-quote {
+  font-family: 'Playfair Display', serif;
+  font-size: 4rem;
+  color: var(--pink, #e91e8c);
+  opacity: 0.15;
+  line-height: 1;
+  margin-bottom: -16px;
+  user-select: none;
+}
+
+.test-texto {
+  font-size: 1.05rem;
+  color: var(--dark, #1a1a1a);
+  line-height: 1.8;
+  font-weight: 300;
+  font-style: italic;
+  margin-bottom: 28px;
+}
+
+/* Footer de la card */
+.test-footer {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(233,30,140,0.10);
+}
+
+.test-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  border: 2px solid var(--pink-pale, #fce7f3);
+}
+.test-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+.test-avatar-fallback {
+  width: 100%;
+  height: 100%;
+  background: var(--pink, #e91e8c);
+  color: white;
+  font-size: 1.4rem;
+  font-weight: 700;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Playfair Display', serif;
+}
+
+.test-info { display: flex; flex-direction: column; gap: 2px; }
+.test-info strong {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--dark, #1a1a1a);
+}
+.test-info span {
+  font-size: 0.82rem;
+  color: var(--gray-text, #555);
+}
+.test-rubro {
+  font-size: 0.72rem !important;
+  color: var(--pink, #e91e8c) !important;
+  font-weight: 500 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* Botones prev / next */
+.test-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--white, #fff);
+  border: 1.5px solid rgba(233,30,140,0.18);
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  font-size: 1.4rem;
+  color: var(--pink, #e91e8c);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  z-index: 2;
+  line-height: 1;
+}
+.test-btn:hover {
+  background: var(--pink, #e91e8c);
+  color: white;
+  border-color: var(--pink);
+  box-shadow: 0 4px 16px rgba(233,30,140,0.25);
+}
+.test-prev { left: -56px; }
+.test-next { right: -56px; }
+
+/* Dots */
+.test-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 28px;
+}
+.test-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(233,30,140,0.2);
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s;
+  padding: 0;
+}
+.test-dot.active {
+  background: var(--pink, #e91e8c);
+  width: 24px;
+  border-radius: 4px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 960px) {
+  .test-prev { left: -16px; }
+  .test-next { right: -16px; }
+  .test-slider-wrap { padding: 0 24px; }
+}
+
+@media (max-width: 600px) {
+  .test-card { padding: 28px 20px 24px; }
+  .test-texto { font-size: 0.95rem; }
+  .test-prev { left: 0; }
+  .test-next { right: 0; }
+  .test-btn { width: 36px; height: 36px; font-size: 1.1rem; }
+}
+</style>
+
+<script>
+const track  = document.getElementById('test-track') as HTMLElement;
+const dots   = document.querySelectorAll<HTMLButtonElement>('.test-dot');
+const cards  = document.querySelectorAll<HTMLElement>('.test-card');
+const total  = cards.length;
+let current  = 0;
+let autoplay: ReturnType<typeof setInterval>;
+
+function goTo(index: number) {
+  current = (index + total) % total;
+  track.style.transform = `translateX(-${current * 100}%)`;
+  dots.forEach((d, i) => d.classList.toggle('active', i === current));
+  cards.forEach((c, i) => c.setAttribute('aria-hidden', i !== current ? 'true' : 'false'));
+}
+
+function startAutoplay() {
+  autoplay = setInterval(() => goTo(current + 1), 5000);
+}
+function stopAutoplay() {
+  clearInterval(autoplay);
+}
+
+document.getElementById('test-next')?.addEventListener('click', () => { stopAutoplay(); goTo(current + 1); startAutoplay(); });
+document.getElementById('test-prev')?.addEventListener('click', () => { stopAutoplay(); goTo(current - 1); startAutoplay(); });
+dots.forEach((dot, i) => dot.addEventListener('click', () => { stopAutoplay(); goTo(i); startAutoplay(); }));
+
+// Swipe en mobile
+let startX = 0;
+track.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; }, { passive: true });
+track.addEventListener('touchend', (e) => {
+  const diff = startX - e.changedTouches[0].clientX;
+  if (Math.abs(diff) > 40) { stopAutoplay(); goTo(current + (diff > 0 ? 1 : -1)); startAutoplay(); }
+});
+
+startAutoplay();
+</script>

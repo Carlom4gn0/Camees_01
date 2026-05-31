@@ -1,7 +1,66 @@
 ---
+// ── Equipo de trabajo
+// Para agregar o editar integrantes, modificá el array "equipo"
+const equipo = [
+  {
+    nombre: 'Nombre Apellido',
+    cargo: 'Presidenta',
+    foto: '/images/equipo/presidenta.jpg',
+    bio: 'Breve descripción opcional',
+  },
+  {
+    nombre: 'Nombre Apellido',
+    cargo: 'Vicepresidenta',
+    foto: '/images/equipo/vicepresidenta.jpg',
+    bio: '',
+  },
+  {
+    nombre: 'Nombre Apellido',
+    cargo: 'Secretaria',
+    foto: '/images/equipo/secretaria.jpg',
+    bio: '',
+  },
+  {
+    nombre: 'Nombre Apellido',
+    cargo: 'Tesorera',
+    foto: '/images/equipo/tesorera.jpg',
+    bio: '',
+  },
+  {
+    nombre: 'Nombre Apellido',
+    cargo: 'Vocal',
+    foto: '/images/equipo/vocal-1.jpg',
+    bio: '',
+  },
+  {
+    nombre: 'Nombre Apellido',
+    cargo: 'Vocal',
+    foto: '/images/equipo/vocal-2.jpg',
+    bio: '',
+  },
+];
+
+// ── Alianzas estratégicas
+// Para cada alianza: name (texto alternativo/tooltip), img (ruta imagen PNG), url (link)
+const alianzas = [
+  { name: 'Honorable Concejo Municipal',             img: '/images/alianzas/concejo-municipal.png',     url: '#' },
+  { name: 'Sec. de Igualdad, Género y Diversidad',   img: '/images/alianzas/secretaria-igualdad.png',   url: '#' },
+  { name: 'Universidad Nacional del Litoral',        img: '/images/alianzas/unl.png',                   url: 'https://www.unl.edu.ar' },
+  { name: 'Universidad Católica de Santa Fe',        img: '/images/alianzas/ucsf.png',                  url: 'https://www.ucsf.edu.ar' },
+  { name: 'Agencia para el Desarrollo de Santa Fe',  img: '/images/alianzas/agencia-desarrollo.png',    url: '#' },
+  { name: 'ONU Mujeres',                             img: '/images/alianzas/onu-mujeres.png',           url: 'https://www.unwomen.org' },
+  { name: 'Banco Nación',                            img: '/images/alianzas/banco-nacion.png',          url: 'https://www.bna.com.ar' },
+  { name: 'APYME',                                   img: '/images/alianzas/apyme.png',                 url: '#' },
+  { name: 'FECECO',                                  img: '/images/alianzas/fececo.png',                url: '#' },
+  { name: 'CILSA',                                   img: '/images/alianzas/cilsa.png',                 url: 'https://www.cilsa.org' },
+  { name: 'Asoc. Civil Generar',                     img: '/images/alianzas/generar.png',               url: '#' },
+];
 ---
+
 <section id="quienes-somos" class="quienes">
   <div class="container">
+
+    <!-- Historia -->
     <div class="quienes-grid">
       <div class="quienes-text">
         <h2 class="section-title">Historia de la Institución</h2>
@@ -18,7 +77,6 @@
         </p>
       </div>
       <div class="quienes-img">
-        <!-- Reemplazar con imagen real -->
         <div class="img-placeholder">
           <img src="/images/quienes-somos.jpg" alt="Equipo CAMEES" />
         </div>
@@ -32,19 +90,18 @@
           <img src="/images/mision.png" alt="mision" width="50px" />
           <h2>Misión</h2>
         </span>
-        
         <p>Impulsar el crecimiento y fortalecimiento de mujeres emprendedoras y empresarias de Santa Fe, promoviendo el desarrollo económico con perspectiva de género, articulando con instituciones públicas y privadas y generando redes de apoyo.</p>
       </div>
       <div class="mvv-card light">
         <span class="mvv-card title-card">
-          <img src="/images/vision.png" alt="mision" width="60px";  />
-          <h2>Vision</h2>
+          <img src="/images/vision.png" alt="vision" width="60px" />
+          <h2>Visión</h2>
         </span>
         <p>Consolidarnos como una organización referente en el acompañamiento y representación de mujeres que emprenden, generando más y mejores oportunidades, inclusión y desarrollo sostenible.</p>
       </div>
       <div class="mvv-card pink">
         <span class="mvv-card title-card">
-          <img src="/images/valores.png" alt="mision" width="50px" />
+          <img src="/images/valores.png" alt="valores" width="50px" />
           <h2>Valores</h2>
         </span>
         <ul>
@@ -58,34 +115,77 @@
       </div>
     </div>
 
-    <!-- Alianzas -->
-    <div class="alianzas" id="alianzas">
-      <h2 class="section-title">Alianzas Estratégicas</h2>
-      <div class="alianzas-grid">
-        {[
-          'Honorable Concejo Municipal',
-          'Sec. de Igualdad, Género y Diversidad',
-          'Universidad Nacional del Litoral',
-          'Universidad Católica de Santa Fe',
-          'Agencia para el Desarrollo de Santa Fe',
-          'ONU Mujeres',
-          'Banco Nación',
-          'APYME',
-          'Centro Comercial de Santa Fe',
-          'FECECO',
-          'CILSA',
-          'Asoc. Civil Generar',
-        ].map((a) => (
-          <div class="alianza-badge">{a}</div>
+    <!-- ── Equipo de trabajo ── -->
+    <div class="equipo" id="equipo">
+      <h2 class="section-title">Nuestro <em>equipo</em></h2>
+    <!-- <p class="equipo-sub">Las personas que hacen posible el trabajo de CAMEES día a día.</p> -->  
+
+      <div class="equipo-slider-wrap">
+        <div class="equipo-track" id="equipo-track">
+          {equipo.map((m) => (
+            <div class="equipo-card">
+              <div class="equipo-foto">
+                <img
+                  src={m.foto}
+                  alt={m.nombre}
+                  loading="lazy"
+                  onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"
+                />
+                <div class="equipo-fallback" style="display:none">
+                  {m.nombre.charAt(0)}
+                </div>
+              </div>
+              <div class="equipo-info">
+                <strong>{m.nombre}</strong>
+                <span class="equipo-cargo">{m.cargo}</span>
+                {m.bio && <p class="equipo-bio">{m.bio}</p>}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <button class="eq-btn eq-prev" id="eq-prev" aria-label="Anterior">‹</button>
+        <button class="eq-btn eq-next" id="eq-next" aria-label="Siguiente">›</button>
+      </div>
+
+      <!-- Dots equipo -->
+      <div class="eq-dots" id="eq-dots">
+        {Array.from({ length: Math.ceil(equipo.length / 3) }).map((_, i) => (
+          <button
+            class={`eq-dot ${i === 0 ? 'active' : ''}`}
+            data-index={i}
+            aria-label={`Página ${i + 1}`}
+          ></button>
         ))}
       </div>
     </div>
+
+    <!-- ── Alianzas Estratégicas ── -->
+    <div class="alianzas" id="alianzas">
+      <h2 class="section-title">Alianzas Estratégicas</h2>
+      <div class="alianzas-grid">
+        {alianzas.map((a) => (
+          <a
+            href={a.url}
+            target={a.url !== '#' ? '_blank' : '_self'}
+            rel="noopener noreferrer"
+            class="alianza-logo"
+            title={a.name}
+            aria-label={a.name}
+          >
+            <img src={a.img} alt={a.name} loading="lazy" />
+          </a>
+        ))}
+      </div>
+    </div>
+
   </div>
 </section>
 
 <style>
 .quienes { background: var(--white); }
 
+/* Historia */
 .quienes-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -105,70 +205,245 @@
   aspect-ratio: 4/3;
   background: var(--pink-pale);
 }
-.quienes-img img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-}
+.quienes-img img { width: 100%; height: 100%; object-fit: cover; }
 
 /* MVV */
 .mvv-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 24px;
-  margin-bottom: 72px;
+  margin-bottom: 80px;
 }
 .mvv-card {
   border-radius: var(--radius);
   padding: 18px 18px;
   transition: transform 0.3s, box-shadow 0.3s;
 }
-.mvv-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 12px 36px rgba(233,30,140,0.15);
-}
+.mvv-card:hover { transform: translateY(-6px); box-shadow: 0 12px 36px rgba(233,30,140,0.15); }
 .mvv-card.pink  { background: var(--pink); color: var(--white); }
 .mvv-card.light { background: var(--pink-pale); color: var(--dark); }
-
-.mvv-card h3 {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 1.1rem;
-  font-weight: 600;
-  margin-bottom: 16px;
-}
-.mvv-card span{
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-}
-.mvv-card span img { padding: 5px;}
+.mvv-card h2 { font-family: 'DM Sans', sans-serif; font-size: 1.1rem; font-weight: 600; margin-bottom: 16px; }
+.mvv-card span { display: flex; justify-content: flex-start; align-items: center; }
+.mvv-card span img { padding: 5px; }
 .mvv-card p, .mvv-card ul { font-size: 0.95rem; line-height: 1.7; opacity: 0.92; }
 .mvv-card ul { padding-left: 18px; }
 .mvv-card ul li { margin-bottom: 4px; }
 
-/* Alianzas */
+/* ── Equipo ── */
+.equipo {
+  margin-bottom: 80px;
+}
+.section-title em { font-style: italic; color: var(--pink); }
+.equipo-sub {
+  font-size: 0.95rem;
+  color: var(--gray-text);
+  font-weight: 300;
+  margin-top: -10px;
+  margin-bottom: 36px;
+}
+
+.equipo-slider-wrap {
+  position: relative;
+  overflow: hidden;
+}
+
+.equipo-track {
+  display: flex;
+  gap: 24px;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+}
+
+.equipo-card {
+  background: var(--gray-bg, #f7f7f7);
+  border-radius: var(--radius);
+  padding: 28px 24px;
+  border: 1px solid rgba(233,30,140,0.08);
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+  /* Muestra 3 cards en desktop */
+  min-width: calc(33.333% - 16px);
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+.equipo-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 28px rgba(233,30,140,0.10);
+}
+
+.equipo-foto {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin: 0 auto 16px;
+  border: 3px solid var(--pink-pale);
+}
+.equipo-foto img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+.equipo-fallback {
+  width: 100%; height: 100%;
+  background: var(--pink);
+  color: white;
+  font-size: 2rem;
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  align-items: center;
+  justify-content: center;
+}
+
+.equipo-info strong {
+  display: block;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 4px;
+}
+.equipo-cargo {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--pink);
+  margin-bottom: 8px;
+}
+.equipo-bio {
+  font-size: 0.82rem;
+  color: var(--gray-text);
+  line-height: 1.5;
+  margin-top: 8px;
+  font-weight: 300;
+}
+
+/* Botones prev/next equipo */
+.eq-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--white);
+  border: 1.5px solid rgba(233,30,140,0.18);
+  border-radius: 50%;
+  width: 40px; height: 40px;
+  font-size: 1.3rem;
+  color: var(--pink);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+  z-index: 2;
+  line-height: 1;
+}
+.eq-btn:hover {
+  background: var(--pink);
+  color: white;
+  border-color: var(--pink);
+}
+.eq-prev { left: -20px; }
+.eq-next { right: -20px; }
+
+/* Dots equipo */
+.eq-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 24px;
+}
+.eq-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: rgba(233,30,140,0.2);
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s;
+  padding: 0;
+}
+.eq-dot.active {
+  background: var(--pink);
+  width: 24px;
+  border-radius: 4px;
+}
+
+/* ── Alianzas con imágenes ── */
+.alianzas { }
 .alianzas-grid {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
-}
-.alianza-badge {
-  background: var(--gray-bg);
-  border: 1.5px solid rgba(233,30,140,0.18);
-  border-radius: 40px;
-  padding: 8px 20px;
-  font-size: 0.85rem;
-  font-weight: 500;
-  color: var(--dark);
-  transition: all 0.2s;
-}
-.alianza-badge:hover {
-  background: var(--pink-pale);
-  border-color: var(--pink);
-  color: var(--pink-dark);
+  gap: 5px;
+  align-items: center;
+  justify-content: space-evenly;
+  margin-top: 32px;
 }
 
+.alianza-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 160px;
+  height: 160px;
+  background: var(--gray-bg);
+  border: 1px solid rgba(233,30,140,0.10); 
+  border-radius: 15px;
+  transition: all 0.25s;
+  overflow: hidden;
+}
+.alianza-logo img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  filter: grayscale(40%) opacity(0.75);
+  transition: filter 0.25s;
+}
+.alianza-logo:hover {
+  border-color: var(--pink);
+  background: var(--pink-pale);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(233,30,140,0.12);
+}
+.alianza-logo:hover img {
+  filter: grayscale(0%) opacity(1);
+}
+
+/* ── Responsive ── */
 @media (max-width: 900px) {
   .quienes-grid { grid-template-columns: 1fr; gap: 32px; }
   .mvv-grid { grid-template-columns: 1fr; }
+  .equipo-card { min-width: calc(50% - 12px); }
+  .eq-prev { left: 0; }
+  .eq-next { right: 0; }
+}
+
+@media (max-width: 560px) {
+  .equipo-card { min-width: 100%; }
+  .alianza-logo { width: 96px; height: 52px; }
 }
 </style>
+
+<script>
+// ── Slider equipo ──
+(function() {
+  const track   = document.getElementById('equipo-track') as HTMLElement;
+  const dots    = document.querySelectorAll<HTMLButtonElement>('.eq-dot');
+  const cards   = track?.querySelectorAll<HTMLElement>('.equipo-card');
+  if (!track || !cards) return;
+
+  const total     = cards.length;
+  const perPage   = window.innerWidth < 560 ? 1 : window.innerWidth < 900 ? 2 : 3;
+  const pages     = Math.ceil(total / perPage);
+  let current     = 0;
+
+  function goTo(page: number) {
+    current = (page + pages) % pages;
+    // Ancho de una card + gap
+    const cardW = cards[0].offsetWidth + 24;
+    track.style.transform = `translateX(-${current * perPage * cardW}px)`;
+    dots.forEach((d, i) => d.classList.toggle('active', i === current));
+  }
+
+  document.getElementById('eq-next')?.addEventListener('click', () => goTo(current + 1));
+  document.getElementById('eq-prev')?.addEventListener('click', () => goTo(current - 1));
+  dots.forEach((dot, i) => dot.addEventListener('click', () => goTo(i)));
+})();
+</script>
