@@ -1,15 +1,35 @@
----
----
 <section class="hero" id="inicio">
-  <!-- Reemplazar src con tu imagen real -->
-  <div class="hero-bg">
-    <img src="/images/hero-bg.jpg" alt="Mujeres emprendedoras CAMEES" />
-    <div class="hero-overlay"></div>
+  <!-- Contenedor del Carrusel de Fondos -->
+  <div class="hero-slider-container">
+    <div class="hero-slide active">
+      <div class="hero-bg">
+        <img src="/images/hero-bg 1.png" alt="Mujeres emprendedoras CAMEES" />
+        <div class="hero-overlay"></div>
+      </div>
+    </div>
+    <!-- Agregá más slides duplicando la estructura y cambiando la imagen si lo deseas -->
+    <div class="hero-slide">
+      <div class="hero-bg">
+        <img src="/images/hero-slide-2 1.png" alt="Exposiciones y Ferias CAMEES" />
+        <div class="hero-overlay"></div>
+      </div>
+    </div>
+    <div class="hero-slide">
+      <div class="hero-bg">
+        <img src="/images/hero-slide-3 1.png" alt="Capacitaciones CAMEES" />
+        <div class="hero-overlay"></div>
+      </div>
+    </div>
+    <div class="hero-slide">
+      <div class="hero-bg">
+        <img src="/images/hero-slide-4 1.png" alt="Capacitaciones CAMEES" />
+        <div class="hero-overlay"></div>
+      </div>
+    </div>
   </div>
 
   <div class="container hero-content fade-up">
-   <!-- <p class="hero-tagline">Cámara de Mujeres Empresarias y Emprendedoras Santafesinas</p> -->
-    <h1 class="hero-title" >
+    <h1 class="hero-title">
       Mujeres que emprenden,<br>mujeres que transforman.
       <em>Nos potenciamos en red.</em>
     </h1>
@@ -27,7 +47,7 @@
     </div>
   </div>
 
-  <!-- Slider de noticias (placeholder) -->
+  <!-- Ticker de noticias (se mantiene intacto) -->
   <div class="hero-ticker">
     <div class="ticker-inner">
       <span>📍 Encontranos viernes y sábados en la Peatonal, frente al Teatro Municipal</span>
@@ -48,7 +68,26 @@
   flex-direction: column;
   justify-content: flex-end;
   padding-bottom: 56px;
-  padding-top: 200px; /* navbar height */
+  padding-top: 200px;
+}
+
+/* Contenedor y Slides del Carrusel de Fondo */
+.hero-slider-container {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 1.2s ease-in-out;
+}
+
+.hero-slide.active {
+  opacity: 1;
 }
 
 .hero-bg {
@@ -56,11 +95,14 @@
   inset: 0;
   overflow: hidden;
 }
+
 .hero-bg img {
-  width: 100%; height: 100%;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   object-position: center;
 }
+
 .hero-overlay {
   position: absolute;
   inset: 0;
@@ -76,16 +118,6 @@
   max-width: 720px;
   color: var(--white);
   padding-top: 80px;
-  width="700px";
-}
-
-.hero-tagline {
-  font-size: 0.85rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  opacity: 0.85;
-  margin-bottom: 16px;
-  font-weight: 500;
 }
 
 .hero-title {
@@ -95,6 +127,7 @@
   margin-bottom: 32px;
   text-shadow: 0 2px 12px rgba(0,0,0,0.2);
 }
+
 .hero-title em {
   font-style: italic;
   color: var(--pink-pale);
@@ -111,12 +144,17 @@
   display: flex;
   gap: 16px;
 }
+
 .hero-social a {
   color: var(--white);
   opacity: 0.85;
   transition: opacity 0.2s, transform 0.2s;
 }
-.hero-social a:hover { opacity: 1; transform: translateY(-3px); }
+
+.hero-social a:hover { 
+  opacity: 1; 
+  transform: translateY(-3px); 
+}
 
 /* Ticker */
 .hero-ticker {
@@ -127,17 +165,21 @@
   padding: 12px 10px;
   overflow: hidden;
   white-space: nowrap;
+  margin-top: 40px; /* Separador estético con el contenido */
 }
+
 .ticker-inner {
   display: inline-flex;
   gap: 80px;
   animation: ticker 30s linear infinite;
 }
+
 .ticker-inner span {
   color: white;
   font-size: 0.9rem;
   font-weight: 500;
 }
+
 @keyframes ticker {
   from { transform: translateX(0); }
   to   { transform: translateX(-50%); }
@@ -149,3 +191,19 @@
   .hero-actions .btn { text-align: center; }
 }
 </style>
+
+<script>
+  // Script para manejar la transición automática de las imágenes de fondo del Hero
+  document.addEventListener("DOMContentLoaded", () => {
+    const slides = document.querySelectorAll('.hero-slide');
+    if (slides.length <= 1) return;
+    
+    let currentIndex = 0;
+    
+    setInterval(() => {
+      slides[currentIndex].classList.remove('active');
+      currentIndex = (currentIndex + 1) % slides.length;
+      slides[currentIndex].classList.add('active');
+    }, 5500); // Cambia de imagen cada 5.5 segundos de forma suave
+  });
+</script>
