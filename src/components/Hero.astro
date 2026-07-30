@@ -1,5 +1,5 @@
 <section class="hero" id="inicio">
-  <!-- Contenedor del Carrusel de Fondos -->
+  <!-- Contenedor del Carrusel de Fondos (Sin controles ni dots) -->
   <div class="hero-slider-container">
     <div class="hero-slide active">
       <div class="hero-bg">
@@ -7,7 +7,6 @@
         <div class="hero-overlay"></div>
       </div>
     </div>
-    <!-- Agregá más slides duplicando la estructura y cambiando la imagen si lo deseas -->
     <div class="hero-slide">
       <div class="hero-bg">
         <img src="/images/hero-slide-2 1.png" alt="Exposiciones y Ferias CAMEES" />
@@ -47,7 +46,7 @@
     </div>
   </div>
 
-  <!-- Ticker de noticias (se mantiene intacto) -->
+  <!-- Ticker de noticias -->
   <div class="hero-ticker">
     <div class="ticker-inner">
       <span>📍 Encontranos viernes y sábados en la Peatonal, frente al Teatro Municipal</span>
@@ -63,12 +62,12 @@
 <style>
 .hero {
   position: relative;
-  min-height: 110vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding-bottom: 56px;
-  padding-top: 200px;
+  padding-bottom: 0;
+  padding-top: 140px;
 }
 
 /* Contenedor y Slides del Carrusel de Fondo */
@@ -101,6 +100,7 @@
   height: 100%;
   object-fit: cover;
   object-position: center;
+  will-change: opacity;
 }
 
 .hero-overlay {
@@ -108,7 +108,8 @@
   inset: 0;
   background: linear-gradient(
     135deg, 
-    rgba(185, 38, 87, 0.3) 100%
+    rgba(185, 38, 87, 0.45) 0%,
+    rgba(0, 0, 0, 0.55) 100%
   );
 }
 
@@ -117,7 +118,7 @@
   z-index: 2;
   max-width: 720px;
   color: var(--white);
-  padding-top: 80px;
+  padding-top: 40px;
 }
 
 .hero-title {
@@ -125,7 +126,7 @@
   font-weight: 700;
   line-height: 1.15;
   margin-bottom: 32px;
-  text-shadow: 0 2px 12px rgba(0,0,0,0.2);
+  text-shadow: 0 2px 12px rgba(0,0,0,0.3);
 }
 
 .hero-title em {
@@ -165,7 +166,7 @@
   padding: 12px 10px;
   overflow: hidden;
   white-space: nowrap;
-  margin-top: 40px; /* Separador estético con el contenido */
+  margin-top: 30px;
 }
 
 .ticker-inner {
@@ -185,15 +186,44 @@
   to   { transform: translateX(-50%); }
 }
 
-@media (max-width: 600px) {
-  .hero-title { font-size: 2rem; }
-  .hero-actions { flex-direction: column; }
-  .hero-actions .btn { text-align: center; }
+/* Ajustes Responsivos para Pantallas de Celulares */
+@media (max-width: 768px) {
+  .hero {
+    min-height: 100dvh;
+    padding-top: 100px;
+  }
+
+  .hero-bg img {
+    object-position: center 30%;
+    height: 100%;
+  }
+
+  .hero-title { 
+    font-size: 2.1rem; 
+    line-height: 1.2;
+    margin-bottom: 24px;
+  }
+
+  .hero-actions { 
+    flex-direction: column; 
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .hero-actions .btn { 
+    text-align: center; 
+    width: 100%;
+  }
+
+  .hero-ticker {
+    margin-top: 20px;
+    padding: 8px 5px;
+  }
 }
 </style>
 
 <script>
-  // Script para manejar la transición automática de las imágenes de fondo del Hero
+  // Rotación automática de imágenes de fondo cada 5.5s
   document.addEventListener("DOMContentLoaded", () => {
     const slides = document.querySelectorAll('.hero-slide');
     if (slides.length <= 1) return;
@@ -204,6 +234,6 @@
       slides[currentIndex].classList.remove('active');
       currentIndex = (currentIndex + 1) % slides.length;
       slides[currentIndex].classList.add('active');
-    }, 5500); // Cambia de imagen cada 5.5 segundos de forma suave
+    }, 5500);
   });
 </script>

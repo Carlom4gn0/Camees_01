@@ -115,37 +115,9 @@ const alianzas = [
       </div>
     </div>
 
-    <!-- ── Equipo de trabajo ── -->
-    <div class="equipo" id="equipo">
-      <h2 class="section-title">Nuestro <em>equipo</em></h2>
-    <!-- <p class="equipo-sub">Las personas que hacen posible el trabajo de CAMEES día a día.</p> -->  
 
-      <div class="equipo-slider-wrap">
-        <div class="equipo-track" id="equipo-track">
-          {equipo.map((m) => (
-            <div class="equipo-card">
-              <div class="equipo-foto">
-                <img
-                  src={m.foto}
-                  alt={m.nombre}
-                  loading="lazy"
-                  onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"
-                />
-                <div class="equipo-fallback" style="display:none">
-                  {m.nombre.charAt(0)}
-                </div>
-              </div>
-              <div class="equipo-info">
-                <strong>{m.nombre}</strong>
-                <span class="equipo-cargo">{m.cargo}</span>
-                {m.bio && <p class="equipo-bio">{m.bio}</p>}
-              </div>
-            </div>
-          ))}
-        </div>
 
-        <button class="eq-btn eq-prev" id="eq-prev" aria-label="Anterior">‹</button>
-        <button class="eq-btn eq-next" id="eq-next" aria-label="Siguiente">›</button>
+
       </div>
 
       <!-- Dots equipo -->
