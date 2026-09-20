@@ -1,6 +1,6 @@
 ---
 titulo: Blog de prueba fechaa... .
-categoria: vinculaciones
+categoria: recursos
 fecha: '2026-09-18'
 resumen: Con UNL firmamos un convenio de colaboración orientado a generar nuevas oportunidades de formación, capacitación y fortalecimiento para mujeres empresarias y emprendedoras.
 imagen: /images/novedades/convenio-unl.jpg
