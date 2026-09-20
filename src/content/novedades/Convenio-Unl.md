@@ -1,7 +1,7 @@
 ---
 Título: CAMEES y la UNL firmaron un convenio para ampliar oportunidades .
 categoria: vinculaciones
-fecha: '2026-09-08'
+fecha: '2026-09-09'
 resumen: Con UNL firmamos un convenio de colaboración orientado a generar nuevas oportunidades de formación, capacitación y fortalecimiento para mujeres empresarias y emprendedoras.
 imagen: /images/novedades/convenio-unl.jpg
 publicado: true
