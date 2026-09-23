@@ -9,7 +9,15 @@ publicado: true
 
 La Universidad Nacional del Litoral (UNL) y la Cámara de Mujeres Empresarias y Emprendedoras Santafesinas (CAMEES) firmaron un convenio de colaboración orientado a generar nuevas oportunidades de formación, capacitación y fortalecimiento para mujeres empresarias y emprendedoras.
 
+<div align="center">
+  <img src="/public/images/novedades/9-de-julio.jpg" width="30%" alt="Descripción 1">
+  <img src="/public/images/novedades/25-de-mayo.jpg" width="30%" alt="Descripción 2">
+  <img src="/public/images/novedades/dia-de-la-bandera.jpg" width="30%" alt="Descripción 3">
+</div>
+
 El acuerdo fue rubricado por la rectora de la UNL, Laura Tarabella, y la presidenta de CAMEES, María de los Ángeles Moyano, en un encuentro que contó con la participación de autoridades de la Universidad, integrantes de la Comisión Directiva de CAMEES y empresarias y emprendedoras que forman parte de la institución.
+
+<img src="/public/images/novedades/espacio-publico.jpg" alt="Mi imagen genial" />
 
 A partir de este vínculo, ambas organizaciones podrán impulsar propuestas de capacitación, asesoramiento, certificación de competencias laborales, actividades de extensión, ferias y exposiciones, entre otras iniciativas destinadas a acompañar el desarrollo y la profesionalización de proyectos productivos y emprendimientos.
 
